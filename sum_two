@@ -36,3 +36,22 @@ public:
 	return b;
     }
 };
+// method 3
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int, int> numre;
+	int Maxsize = nums.size();
+	vector<int> b(2, -1);
+	for (int k1 = 0; k1 < Maxsize; k1++){
+		int temp = target - nums[k1];
+		if (numre.count(temp)){
+			 b[0] = k1;
+			 b[1] = numre[temp];
+			return b;
+		}
+		numre[nums[k1]] = k1;
+	}
+	return b;
+    }
+};
