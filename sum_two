@@ -1,3 +1,4 @@
+// method 1
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
@@ -12,4 +13,26 @@ public:
 	}
         return {k1,k2};
     };
+};
+
+//method 2
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+    map<int, int> numre;
+	int Maxsize = nums.size();
+	vector<int> b(2, -1);
+	for (int k1 = 0; k1 < Maxsize; k1++){
+		numre.insert(make_pair(nums[k1], k1));
+	}
+	for (int k2 = 0; k2 < Maxsize; k2++){
+		int temp = target - nums[k2];
+		if (numre.count(temp) && numre[temp] != k2){
+			 b[0] = k2;
+			 b[1] = numre[temp];
+			return b;
+		}
+	}
+	return b;
+    }
 };
