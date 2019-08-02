@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int Maxszie = nums.size();
+        int k1,k2;
+	for ( k1 = 0; k1 < Maxszie - 1; k1++){
+		int two = target - nums[k1];
+		for ( k2 = k1 + 1; k2 < Maxszie; k2++){
+			if (two == nums[k2])
+				return{k1,k2};
+		}
+	}
+        return {k1,k2};
+    };
+};
