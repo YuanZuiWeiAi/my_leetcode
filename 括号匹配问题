@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        if (s.length() % 2 != 0) return false;
+	map <char, char> mapstr;
+	mapstr.insert(make_pair(')','('));
+	mapstr.insert(make_pair(']', '['));
+	mapstr.insert(make_pair('}', '{'));
+	int len = s.length();
+	stack<char> str;
+	for (int i = 0; i < len; i++){
+		if (s[i] == '(' || s[i] == '[' || s[i] == '{')  str.push(s[i]);
+		else if (s[i] == ')' || s[i] == ']' || s[i] == '}'){
+			if (str.empty()) return false;
+			if (mapstr[s[i]] == str.top()) str.pop();
+			else return false;
+		}
+	}
+	if (str.empty()) return true;
+	else return false;
+    }
+};
