@@ -24,3 +24,22 @@ public:
 	}
     
 };
+
+///*如果 sum + nums[i] > nums[i]，则说明 sum 对结果有增益效果，则 sum 保留并加上当前遍历数字
+如果 sum + nums[i] <= nums[i]，则说明 sum 对结果无增益效果，需要舍弃，则 sum 直接更新为当前遍历数字
+每次比较 sum 和 ans的大小，将最大值置为ans，遍历结束返回结果
+只要出现负值就舍弃，返回当前值与前项求和最大值
+*/
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+    if (nums.size() == 0) return NULL;
+	int maxNum = INT_MIN;
+	int sum = 0;
+	for (size_t i = 0; i < nums.size(); i++){
+		sum = max(nums[i],sum + nums[i]);
+		maxNum = max(maxNum,sum);
+	}
+	return maxNum;        
+    }
+};
