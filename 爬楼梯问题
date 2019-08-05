@@ -18,3 +18,52 @@ public:
 	}
 };
 
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n == 0 || n == 1 || n == 2)
+			return n;
+		int a_1 = 1;  //剩余两个阶梯
+		int a_2 = 2;  //剩余一个阶梯
+		int temp = -1;
+		for (int i = 3; i <= n; i++){
+			temp = a_1 + a_2;
+            a_1 = a_2;
+			a_2 = temp;
+			
+		}
+		return temp;
+    }
+};
+
+//
+class Solution {
+public:
+    int climbStairs(int n) {
+		vector<vector<int> > q(2, vector<int>(2));
+		q = { { 1, 1 }, { 1, 0 } };
+		vector<vector<int> > res = pow(q, n);
+		return res[0][0];
+	}
+	vector<vector<int> > pow(vector<vector<int> > p, int n){
+		vector<vector<int> > res = p;
+		if (n == 1) return res;
+		for (int i = 2; i <= n; i++){
+			res = multiply(res, p);
+		}
+		return res;
+	}
+	vector<vector<int> > multiply(vector<vector<int> > p, vector<vector<int> > q){
+		int row = p.size();
+		int col = p[0].size();
+		vector<vector<int> > res(row, vector<int>(col));
+		for (int i = 0; i < row; i++){
+			for (int j = 0; j < col; j++){
+				res[i][j] = p[i][0] * q[0][j] + p[i][1] * q[1][j];
+			}
+		}
+		return res;
+    }
+};
+
+//
