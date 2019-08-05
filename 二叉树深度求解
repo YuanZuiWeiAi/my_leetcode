@@ -1,0 +1,64 @@
+/*给定一个二叉树，找出其最大深度。
+二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+说明 : 叶子节点是指没有子节点的节点。*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+ //层次遍历，判断任意一层是否全部遍历，若存在元素则深度加一。
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root == NULL) return 0;
+        int height = 0;
+        queue<TreeNode*> q;
+        q.push(root);
+        TreeNode* p = NULL , *lastNode = root;
+        while(!q.empty())
+        {
+            p=q.front();
+            q.pop();
+            
+            if(p->left != NULL)
+                q.push(p->left);
+            if(p->right != NULL)
+                q.push(p->right);
+            
+            if(lastNode == p)
+            {
+                height ++;
+                lastNode = q.back();
+            }
+        }
+        return height;
+    }
+};
+
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == nullptr) return 0;
+		queue<TreeNode *> Q;
+		TreeNode * p = root;
+		Q.push(p);
+		int depth = 0;
+		while (!Q.empty()){
+			int len = Q.size();
+			for (int i = 0; i < len; i++){
+				p = Q.front();
+				Q.pop();
+				if (p->left != nullptr) Q.push(p->left);
+				if (p->right != nullptr) Q.push(p->right);
+			}//for
+			depth++;
+		}
+		//while
+		return depth;
+	}
+};
