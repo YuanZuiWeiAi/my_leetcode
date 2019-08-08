@@ -17,3 +17,22 @@ public:
     }
 };
 
+/*如果我们把众数记为 + 1 + 1 ，把其他数记为 - 1−1 ，将它们全部加起来，
+显然和大于 0 ，从结果本身我们可以看出众数比其他数多。*/
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int count = 0;
+		int res = nums[0];
+		for (size_t i = 0; i < nums.size(); i++){
+			if (res == nums[i])
+				count++;
+			else
+				count--;
+			if (count == 0)
+				res = nums[i+1];
+		}//for
+		return res;
+    }
+};
+
