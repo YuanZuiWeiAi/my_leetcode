@@ -1,0 +1,44 @@
+
+//编写一个程序，找到两个单链表相交的起始节点。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode * p = headA,  * q = headB;
+		set<ListNode * > S;
+		while (p != nullptr || q != nullptr){
+            if (p == q)
+				return p;
+			if (S.count(q) == 0 && S.count(p) == 0){
+				if (p != nullptr){
+                    S.insert(p);
+					p = p->next;
+                    
+                }
+				if (q != nullptr){
+                    S.insert(q);
+					q = q->next;
+                    
+                }
+			}//if
+			else{
+				if (S.count(q) != 0){
+					auto it = S.find(q);
+					return *it;
+				}
+				if (S.count(p) != 0){
+					auto it = S.find(p);
+					return *it;
+				}
+			}//else
+		}//while
+		return NULL;
+    }
+};
