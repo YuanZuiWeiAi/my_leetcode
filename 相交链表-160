@@ -42,3 +42,42 @@ public:
 		return NULL;
     }
 };
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        set<ListNode *> S;
+		ListNode * p = headA;
+		ListNode * q = headB;
+		while (p != nullptr){
+			S.insert(p);
+			p = p->next;
+		}
+		while (q != nullptr){
+			if (S.count(q) != 0)
+				return q;
+			q = q->next;
+		}
+		return NULL;
+    }
+};
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (headA == nullptr || headB == nullptr) return NULL;
+		ListNode * p = headA;
+		ListNode * q = headB;
+		while ( p != q ){
+			if (p == nullptr)
+				p = headB;
+            else
+			    p = p->next;
+			if (q == nullptr)
+				q = headA;
+            else
+			    q = q->next;
+		}
+		return p;
+    }
+};
