@@ -1,0 +1,88 @@
+
+//滑窗，1、检索p中各元素的次数 2、找到包含所有p元素的最小窗，利用一个int数据进行判定 2、在现有窗中找到最优解
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int Ls = s.size(), Lp = p.size();
+	    vector<int> res;
+	map<char, int > nump, win;
+	int mat = 0, left = 0, right = 0;
+	for (char c : p) nump[c]++;
+	while (right < Ls){
+		if (nump.count(s[right])){
+			win[s[right]]++;
+			if (win[s[right]] <= nump[s[right]])
+				mat++;
+		}
+		right++;
+
+		while (mat == Lp){
+			if (right - left == Lp)
+				res.push_back(left);
+			if (nump.count(s[left])){
+				win[s[left]]--;
+				if (win[s[left]] < nump[s[left]])
+					mat--;
+			}
+			left++;
+
+		}//while(2)
+
+	}//while(1)
+	return res;
+    }
+};
+
+//固定窗,
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int Ls = s.size(), Lp = p.size();
+	vector<int > res;
+	map<char, int > nump, win;
+	int left = 0, right = -1;
+	for (int i = 0; i < Lp; i++){
+		nump[p[i] ]++;
+		win[s[++right] ]++;
+	}
+
+	if (nump == win)  res.push_back(left);
+
+	while (right < Ls){
+		win[s[++right] ]++;
+		win[s[left] ]--;
+		if (win[s[left]] == 0) win.erase(s[left]);
+		left++;
+		if (win == nump)
+			res.push_back(left);
+	}
+	return res;
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        	if (s.size() < p.size())
+		return{};
+	int k = 0, r = -1;
+	vector<int> freq_s(26, 0), freq_p(26, 0), res;
+	// 初始化代码值
+	for (int i = 0; i < p.size(); i++){
+		freq_p[p[i] - 'a']++;
+		freq_s[s[++r] - 'a']++;
+	}
+	if (freq_s == freq_p)
+		res.push_back(k);
+	// 固定长度的滑动窗口
+	while (r < s.size() - 1){
+		freq_s[s[++r] - 'a']++;
+		freq_s[s[k++] - 'a']--;
+		if (freq_s == freq_p)
+			res.push_back(k);
+	}
+	return res;
+    }
+};
