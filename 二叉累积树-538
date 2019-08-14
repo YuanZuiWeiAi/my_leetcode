@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+   int sum = 0;
+	TreeNode* convertBST(TreeNode* root) {
+		if (root == nullptr) return nullptr;
+		convertBST(root->right);
+		root->val += sum;
+		sum = root->val;
+		convertBST(root->left);
+		return root;
+	}
+};
+
+
+class Solution {
+public:
+	int sum = 0;
+	TreeNode* convertBST(TreeNode* root) {
+		if (root != NULL){
+			convertBST(root->right);
+			root->val += sum;
+			sum = root->val;
+			convertBST(root->left);
+			return root;
+		}
+		return NULL;
+	}
+};
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int sum = 0;
+	TreeNode* convertBST(TreeNode* root) {
+		if (root != nullptr){
+			DFS(root, 0);
+			return root;
+		}
+		return nullptr;
+	}
+	int DFS(TreeNode * root, int sum){
+		if (root == nullptr) return sum;
+		sum = DFS(root->right, sum);             //遍历又子树
+		int TempVal = root->val;                 //访问根节点
+		root->val += sum;
+		sum += TempVal;
+		sum = DFS(root->left, sum);             //遍历左子树
+		return sum;
+	}
+};
