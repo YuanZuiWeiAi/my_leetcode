@@ -1,0 +1,55 @@
+
+/*
+给定一个整数数组，你需要寻找一个连续的子数组，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。
+你找到的子数组应是最短的，请输出它的长度。*/
+
+
+/*
+1、找出已经就位的“较大元素”[last+1 ~ n-1]：
+   从左往右扫描，记录[0 ~ i-1]的最大值imax，如果nums[i]比imax要小，说明i肯定是要往前挪的。
+   记录最后一个要往前挪的i（记为last）,那么[last+1 ~ n-1]的元素都是已经就位的“较大”元素。     
+2、找出已经就位的“较小元素”[0 ~ first-1]：
+   从右往左扫描，记录[i+1 ~ n-1]的最小值imin,如果nums[i]比imin要大，说明i肯定是要往后挪的。
+   记录最后一个要往后挪的i（记为first），那么[0~first-1]的元素都是已经就位的“较小”元素。
+3、[0 ~ first-1]和[last+1 ~ n-1]的元素已经就位，那么[first ~ last]之间的元素就是没就位的。
+*/
+
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int start = 0, end = 0;
+		int Max = nums[0], Min = nums[nums.size() - 1];
+		for (int i = 1; i < nums.size(); i++){
+			if (nums[i] < Max){ 
+				end = i; 
+			}
+			Max = max(nums[i], Max);
+		}
+		for (int i = nums.size() - 2; i >= 0; i--){
+			if (nums[i] > Min){
+				start = i;
+			}
+			Min = min(nums[i], Min);
+		}
+		return end != start ? end - start + 1 : 0;
+    }
+};
+
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int start = 0, end = 0;
+       	int Max = nums[0], Min = nums[nums.size() - 1];
+      	for (int i = 1; i < nums.size(); i++){
+	           if (nums[i] < Max){
+		            	end = i;
+		         }
+	   	        if (nums[nums.size() - i - 1] > Min){
+	 	            	start = nums.size() - i - 1;
+		         }
+	          	Max = max(nums[i], Max);
+	          	Min = min(nums[nums.size() - i - 1], Min);
+      	}
+	  return end != start ? end - start + 1 : 0;
+ }
+};
