@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int Row = grid.size();  //行
+	int Col = grid[0].size(); //列
+	int res = 0;
+	for (int k1 = 0; k1 < Row; k1++){
+		for (int k2 = 0; k2 < Col; k2++){
+			if (grid[k1][k2] == 1){
+				int Row_0 = k1 - 1;
+				int Row_1 = k1 + 1;
+				int Col_0 = k2 - 1;
+				int Col_1 = k2 + 1;
+				if (Row_0 >= 0){
+					if (grid[Row_0][k2] == 0)
+						res++;
+				}
+				else res++;
+				if (Row_1 < Row){
+					if (grid[Row_1][k2] == 0)
+						res++;
+				}
+				else res++;
+				if (Col_0 >= 0){
+					if (grid[k1][Col_0] == 0)
+						res++;
+				}
+				else res++;
+				if (Col_1 < Col){
+					if (grid[k1][Col_1] == 0)
+						res++;
+				}
+				else res++;
+			}//if
+		}//for
+	}//for
+	return res;
+    }
+};
+
+
+
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int Row = grid.size();  //行
+	int Col = grid[0].size(); //列
+	int res = 0;
+	for (int k1 = 0; k1 < Row; k1++){
+		for (int k2 = 0; k2 < Col; k2++){
+			if (grid[k1][k2] == 1){
+				res += 4;
+				if (k1 > 0 && grid[k1 - 1][k2] == 1) res--;
+				if (k1 < Row - 1 && grid[k1 + 1][k2] == 1) res--;
+				if (k2 > 0 && grid[k1][k2 - 1] == 1) res--;
+				if (k2 < Col - 1 && grid[k1][k2 + 1] == 1) res--;
+			}
+		}//for
+	}//for
+	return res;
+    }
+};
