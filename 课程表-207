@@ -1,0 +1,35 @@
+class Solution {
+public:
+	bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+		//vector<int> course(numCourses);
+		//for (int i = 0; i<numCourses; i++)
+		//	course[i] = i;//课程序号
+		vector<vector<int>> ad(numCourses);//邻接表 先修课程到后修课程
+		vector<int> inLines(numCourses, 0);//每个课程的入度
+		for (auto p : prerequisites)
+		{
+			ad[p[1]].push_back(p[0]);    //p[0]后修，p[1]是先修
+			inLines[p[0]]++;             //  入度+1
+		}
+		queue<int> q;//辅助队列
+		int res = 0;
+		for (int i = 0; i < numCourses; i++){
+			if (inLines[i] == 0)
+				q.push(i);//入度为0的课程入队列
+		}
+		while (!q.empty())//继续拓扑排序
+		{
+			int cur = q.front();//当前课程
+			q.pop();
+			res++;
+			auto p = ad[cur];                        //后修课程
+			for (auto pp : p)                        //遍历每个后修课程
+			{
+				inLines[pp]--;                       //删除该边 即后修课程的入度-1 因为当前节点唯一访问 所以不需要删除邻接表
+				if (inLines[pp] == 0)                //删除边后 该节点的入度为0且未在拓扑排序中
+					q.push(pp);                      //入队列
+			}
+		}
+		return res == numCourses ? true : false;
+	}
+};
