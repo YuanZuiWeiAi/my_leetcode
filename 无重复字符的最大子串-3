@@ -1,0 +1,23 @@
+//暴力法解题-超时
+class Solution {
+public:
+	int lengthOfLongestSubstring(string s) {
+		int Len = s.size();
+		int res = 0;
+		for (int i = 0; i < Len; i++){
+			for (int j = i + 1; j <= Len; j++){
+				if (allUnique(s, i, j)) res = max(res, j - i);
+			}
+		}
+        return res;
+	}      //int
+	bool allUnique(string s, int start, int end){
+		set<char > S;
+		for (int i = start; i < end; i++){
+			char temp_char = s[i];
+			if (S.count(temp_char)) return false;
+			else S.insert(temp_char);
+		}   //for
+		return true;
+	}     //bool
+};
