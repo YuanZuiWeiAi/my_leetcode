@@ -21,3 +21,39 @@ public:
 		return true;
 	}     //bool
 };
+
+//滑窗
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+		int Len = s.size();
+		int res = 0, right = 0, left = 0;
+        set<char> S;
+		while (right < Len && left < Len){
+			if (S.count(s[left]) == 0){
+				S.insert(s[left++]);
+				res = max(res, left - right);
+			}
+			else S.erase(s[right++]);
+		}//while
+		return res;
+    }
+};
+
+//优化窗
+class Solution {
+public:
+	int lengthOfLongestSubstring(string s) {
+		int Len = s.size();
+		int res = 0;
+		map<char, int > M;
+		for (int right = 0, left = 0; right < Len; right++){
+			if (M.count(s[right]))
+				left = max(M[s[right]], left);
+			res = max(res, right - left + 1);
+			M[s[right]] = right + 1;
+			//M.insert({s[right], right + 1});
+		}
+		return res;
+	}
+};
