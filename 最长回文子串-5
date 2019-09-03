@@ -1,0 +1,75 @@
+//动态规划
+class Solution {
+public:
+	string longestPalindrome(string s) {
+	size_t Len = s.size();
+	int  ** dp = new int *[Len];
+	for (int i = 0; i < Len; i++){
+		dp[i] = new int[Len];
+		dp[i][i] = 1;
+	}
+	size_t Start = 0, End = 0;
+	for (size_t right = 1; right < Len; right++){
+		for (size_t left = 0; left < right; left++){
+			if (s[right] == s[left] && (right - left == 1 || dp[left + 1][right - 1] == 1)){
+				dp[left][right] = 1;
+				if (right - left > End - Start){
+					End = right;  Start = left;
+				}//if
+				continue;
+			}//if
+			else dp[left][right] = 0;
+		}//for
+	}//for
+	return s.substr(Start, End - Start + 1);
+}
+};
+
+//优化空间
+class Solution {
+public:
+    string longestPalindrome(string s) {
+    if (s.size() == 0 || s.size() == 1) return s;
+	size_t Len = s.size();
+	bool ** dp = new bool *[Len];
+	for (int i = 0; i < Len; i++){
+		dp[i] = new bool[Len];
+		dp[i][i] = true;
+	}
+	string res = s.substr(0,1);
+	for (size_t right = 1; right < Len; right++){
+		for (size_t left = 0; left < right; left++){
+			dp[left][right] = (s[right] == s[left] && (right - left == 1 || dp[left + 1][right - 1] == true));
+			if (dp[left][right] && right - left >= res.size())  res = s.substr(left, right - left + 1);
+		}//for
+	}//for
+	return res;
+}
+};
+
+//中心开花算法
+class Solution {
+public:
+string longestPalindrome(string s) {
+	if (s.size() <= 1) return s;
+	int Start = 0, End = 0;
+	for (int i = 0; i < s.size(); i++){
+		int Len1 = ExpendAroundCentre(s, i, i);
+		int Len2 = ExpendAroundCentre(s, i, i + 1);
+		int Len = max(Len1, Len2);
+		if (Len > End - Start){
+			Start = i - (Len - 1) / 2;
+			End = i + Len / 2;
+		}
+	}//for
+	return  s.substr(Start, End - Start + 1);
+}
+
+int ExpendAroundCentre(string s, int left, int right){
+	int L = left, R = right;
+	while (L >= 0 && R < s.size() && s[L] == s[R]){
+		L--; R++;
+	}
+	return R - L - 1;
+}
+};
